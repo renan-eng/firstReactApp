@@ -36,9 +36,11 @@ function ViewSinglePost(props) {
         draft.isFetching = false;
         return;
       case "titleChange":
+        draft.title.hasErros = false;
         draft.title.value = action.value;
         return;
       case "bodyChange":
+        draft.body.hasErros = false;
         draft.body.value = action.value;
         return;
       case "submitRequest":
@@ -72,6 +74,7 @@ function ViewSinglePost(props) {
   function submitHandler(e) {
     e.preventDefault();
     dispatch({ type: "titleRules", value: state.title.value });
+    dispatch({ type: "bodyRules", value: state.body.value });
     dispatch({ type: "submitRequest" });
   }
 
@@ -101,7 +104,7 @@ function ViewSinglePost(props) {
         try {
           const response = await Axios.post(`/post/${state.id}/edit`, { title: state.title.value, body: state.body.value, token: appState.user.token }, { cancelToken: ourRequest.token });
           dispatch({ type: "saveRequestFinished" });
-          appDispatch({ type: "flashMessage", value: "Past was updated." });
+          appDispatch({ type: "flashMessage", value: "Post foi atualizado." });
         } catch (e) {
           console.log("There was a problem or the request was cancelled.");
         }
@@ -121,11 +124,12 @@ function ViewSinglePost(props) {
     );
 
   return (
-    <Page title="Edit Post">
+    <Page title="Editar Post">
+      <Link className="small font-weight-bold" to={`/post/${state.id}`}>&laquo; Voltar para o post</Link>
       <form onSubmit={submitHandler}>
         <div className="form-group">
           <label htmlFor="post-title" className="text-muted mb-1">
-            <small>Title</small>
+            <small>Título</small>
           </label>
           <input onBlur={e => dispatch({ type: "titleRules", value: e.target.value })} onChange={e => dispatch({ type: "titleChange", value: e.target.value })} value={state.title.value} autoFocus name="title" id="post-title" className="form-control form-control-lg form-control-title" type="text" placeholder="" autoComplete="off" />
           {state.title.hasErros && <div className="alert alert-danger small liveValidateMessage">{state.title.message}</div>}
@@ -133,13 +137,14 @@ function ViewSinglePost(props) {
 
         <div className="form-group">
           <label htmlFor="post-body" className="text-muted mb-1 d-block">
-            <small>Body Content</small>
+            <small>Conteúdo</small>
           </label>
           <textarea onBlur={e => dispatch({ type: "bodyRules", value: e.target.value })} onChange={e => dispatch({ type: "bodyChange", value: e.target.value })} name="body" id="post-body" className="body-content tall-textarea form-control" type="text" value={state.body.value} />
+          {state.body.hasErros && <div className="alert alert-danger small liveValidateMessage">{state.body.message}</div>}
         </div>
 
         <button className="btn btn-primary" disabled={state.isSaving}>
-          {state.isSaving ? `Saving...` : `Save Upadates`}
+          {state.isSaving ? `Salvando...` : `Salvar mudanças`}
         </button>
       </form>
     </Page>

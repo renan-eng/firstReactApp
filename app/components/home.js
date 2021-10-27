@@ -6,11 +6,11 @@ function Home() {
   const appState = useContext(StateContext);
 
   return (
-    <Page title="Your Feed">
+    <Page title="Seu Feed">
       <h2 className="text-center">
-        Hello <strong>{appState.user.username}</strong>, your feed is empty.
+        Olá <strong>{appState.user.username}</strong>, seu feed está vazio.
       </h2>
-      <p className="lead text-muted text-center">Your feed displays the latest posts from the people you follow. If you don&rsquo;t have any friends to follow that&rsquo;s okay; you can use the &ldquo;Search&rdquo; feature in the top menu bar to find content written by people with similar interests and then follow them.</p>
+      <p className="lead text-muted text-center">Seu feed exibe as últimas postagens das pessoas que você segue. Se você não tiver nenhum amigo para seguir, tudo bem; você pode usar a opção &ldquo; Pesquisar &rdquo; recurso na barra de menu superior para encontrar conteúdo escrito por pessoas com interesses semelhantes e segui-los.</p>
     </Page>
   );
 }

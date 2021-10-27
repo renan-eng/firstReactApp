@@ -6,23 +6,23 @@ function Footer() {
     <footer className="border-top text-center small text-muted py-3">
         <p>
           <Link to="/" className="mx-1">
-            Home
+            Início
           </Link>{" "}
           |{" "}
           <Link className="mx-1" to="/about-us">
-            About Us
+            Sobre Nós
           </Link>{" "}
           |{" "}
           <Link className="mx-1" to="/terms">
-            Terms
+            Termos
           </Link>
         </p>
         <p className="m-0">
-          Copyright &copy; 2020{" "}
+          Copyright &copy; 2021{" "}
           <a href="/" className="text-muted">
-            ComplexApp
+            EscrevaAgora
           </a>
-          . All rights reserved.
+          . Todos os direitos reservados.
         </p>
       </footer>
   )

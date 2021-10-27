@@ -24,10 +24,10 @@ function HeaderLoggedIn(props) {
         <img className="small-header-avatar" src={appState.user.avatar} />
       </Link>
       <Link className="btn btn-sm btn-success mr-2" to="/create-post">
-        Create Post
+        Criar Post
       </Link>
       <button onClick={handleLogout} className="btn btn-sm btn-secondary">
-        Sign Out
+        Sair
       </button>
     </div>
   );
