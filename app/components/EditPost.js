@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import Page from "./Page";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, withRouter } from "react-router-dom";
 import Axios from "axios";
 import LoadingDotsIcon from "./LoadingDotsIcon";
 import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
+import NotFound from "./NotFound";
 
-function ViewSinglePost(props) {
+function EditPost(props) {
   const appState = useContext(StateContext);
   const appDispatch = useContext(DispatchContext);
 
@@ -25,7 +26,8 @@ function ViewSinglePost(props) {
     isFetching: true,
     isSaving: false,
     id: useParams().id,
-    sendCount: 0
+    sendCount: 0,
+    notFound: false
   };
 
   function ourReducer(draft, action) {
@@ -66,6 +68,9 @@ function ViewSinglePost(props) {
           draft.body.message = "You must provide a body content.";
         }
         return;
+      case "notFound":
+        draft.notFound = true;
+        return;
     }
   }
 
@@ -84,7 +89,16 @@ function ViewSinglePost(props) {
     async function fetchPost() {
       try {
         const response = await Axios.get(`/post/${state.id}/`, { cancelToken: ourRequest.token });
-        dispatch({ type: "fetchComplete", value: response.data });
+        if (response.data) {
+          dispatch({ type: "fetchComplete", value: response.data });
+          if (appState.user.username != response.data.author.username) {
+            appDispatch({ type: "flashMessage", value: "Você não tem permissão para editar esse post." });
+            // redirecionar para homepage
+            props.history.push("/");
+          }
+        } else {
+          dispatch({ type: "notFound" });
+        }
       } catch (e) {
         console.log("There was a problem or the request was cancelled.");
       }
@@ -116,6 +130,10 @@ function ViewSinglePost(props) {
     }
   }, [state.sendCount]);
 
+  if (state.notFound) {
+    return <NotFound />;
+  }
+
   if (state.isFetching)
     return (
       <Page title="...">
@@ -125,8 +143,10 @@ function ViewSinglePost(props) {
 
   return (
     <Page title="Editar Post">
-      <Link className="small font-weight-bold" to={`/post/${state.id}`}>&laquo; Voltar para o post</Link>
-      <form onSubmit={submitHandler}>
+      <Link className="small font-weight-bold" to={`/post/${state.id}`}>
+        &laquo; Voltar para o post
+      </Link>
+      <form className="mt-3" onSubmit={submitHandler}>
         <div className="form-group">
           <label htmlFor="post-title" className="text-muted mb-1">
             <small>Título</small>
@@ -151,4 +171,4 @@ function ViewSinglePost(props) {
   );
 }
 
-export default ViewSinglePost;
+export default withRouter(EditPost);
