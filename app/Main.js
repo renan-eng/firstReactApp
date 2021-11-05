@@ -94,21 +94,19 @@ function Main() {
           <FlashMessages messages={state.flashMessages} />
           <Header />
           <Switch>
-            <Route path="/profile/:username">
-              <Profile />
+            <Route path="/profile/:username" exact>
+              {state.loggedIn ? <Profile /> : <HomeGuest />}
             </Route>
             <Route path="/" exact>
               {state.loggedIn ? <Home /> : <HomeGuest />}
             </Route>
             <Route path="/post/:id" exact>
-              <ViewSinglePost />
+              {state.loggedIn ? <ViewSinglePost /> : <HomeGuest />}
             </Route>
             <Route path="/post/:id/edit" exact>
-              <EditPost />
+              {state.loggedIn ? <EditPost /> : <HomeGuest />}
             </Route>
-            <Route path="/create-post">
-              <CreatePost />
-            </Route>
+            <Route path="/create-post">{state.loggedIn ? <CreatePost /> : <HomeGuest />}</Route>
             <Route path="/about-us" exact>
               <About />
             </Route>
