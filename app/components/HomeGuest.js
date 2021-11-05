@@ -68,7 +68,7 @@ function HomeGuest() {
         draft.email.value = action.value;
         return;
       case "emailAfterDelay":
-        if (!/^\S+@\S+$/.test(draft.email.value)) {
+        if (!/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(draft.email.value)) {
           draft.email.hasErrors = true;
           draft.email.message = "Email invalido.";
         }
