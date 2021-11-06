@@ -11,11 +11,11 @@ import DispatchContext from "./DispatchContext";
 
 // My Components
 import Header from "./components/Header";
+import Home from "./components/Home";
 import HomeGuest from "./components/HomeGuest";
 import Footer from "./components/Footer";
 import About from "./components/About";
 import Terms from "./components/Terms";
-import Home from "./components/Home";
 const CreatePost = React.lazy(() => import("./components/CreatePost"));
 const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"));
 import FlashMessages from "./components/FlashMessages";
