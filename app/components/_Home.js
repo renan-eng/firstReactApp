@@ -61,4 +61,3 @@ function Home() {
 }
 
 export default Home;
-//File in github is home.js and not Home.js, and its causing issues with netlify
