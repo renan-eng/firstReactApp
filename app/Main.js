@@ -122,6 +122,8 @@ function Main() {
               <Route path="/" exact>
                 {state.loggedIn ? <Home /> : <HomeGuest />}
               </Route>
+              <Route path="/profile/:username/followers" component={Profile}></Route>
+              <Route path="/profile/:username/following" component={Profile}></Route>
               <Route path="/post/:id" exact>
                 {state.loggedIn ? <ViewSinglePost /> : <HomeGuest />}
               </Route>
